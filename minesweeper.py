@@ -4,7 +4,7 @@ class Board():
 
     def __init__(self):
 
-        if diff in (1,2):
+        if diff in (1, 2):
             self.tiles = [" " for c in range(4 + 8*diff)]
         
     def display(self):
@@ -31,7 +31,7 @@ class Mines(Board):
         
         Board.__init__(self)
 
-        if diff in (1,2):
+        if diff in (1, 2):
             self.mines = [" " for c in range(4 + 8*diff)]
             
             for num in range(1 + 2*diff):
@@ -75,13 +75,13 @@ class Mines(Board):
             win_count = 0
             
             for item in self.tiles:
-                if item in [0,1,2,3,4,5]:
+                if item in [0, 1, 2, 3, 4, 5]:
                     win_count+=1
 
             if self.mines[pos - 1] == "X":
                 game_over = True
 
-            elif self.tiles[pos - 1] in [0,1,2,3,4,5]:
+            elif self.tiles[pos - 1] in [0, 1, 2, 3, 4, 5]:
                 clear_output()
                 print("Position taken!")
 
@@ -89,7 +89,7 @@ class Mines(Board):
                 for num in arr:
                     if self.mines[num] == "X":
                         count+=1
-                self.tiles[pos-1] = count
+                self.tiles[pos - 1] = count
                 clear_output()
     
         # Starting at top right corner
