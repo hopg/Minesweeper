@@ -7,7 +7,7 @@ class Board():
 
     def __init__(self):
 
-        if diff in (1,2):
+        if diff in (1, 2):
             self.tiles = [" " for c in range(4 + 8*diff)]
         
     def display(self):
@@ -38,10 +38,10 @@ class Mines(Board):
         
         Board.__init__(self)
 
-        if diff in (1,2):
-            self.mines = [" " for c in range(4 + 8*diff)]
+        if diff in (1, 2):
+            self.mines = [" " for c in range(4 + 8 * diff)]
             
-            for num in range(1 + 2*diff):
+            for num in range(1 + 2 * diff):
                 self.mines[num] = "X"
             random.shuffle(self.mines)
   
@@ -79,12 +79,12 @@ class Mines(Board):
                 else:
                     print("| %s | %s | %s | %s |" % tuple([self.mines[4*i + c] for c in range(4)]))
             
-    def touch(self,pos): 
+    def touch(self, pos): 
         '''
         Method used for displaying how many mines that are adjacent to a particular tile.
         '''
     
-        def the_check(self,arr,pos):
+        def the_check(self, arr, pos):
             global count
             global game_over
             global win_count
@@ -93,13 +93,13 @@ class Mines(Board):
             win_count = 0
             
             for item in self.tiles:
-                if item in [0,1,2,3,4,5]:
+                if item in [0, 1, 2, 3, 4, 5]:
                     win_count+=1
 
             if self.mines[pos - 1] == "X":
                 game_over = True
 
-            elif self.tiles[pos - 1] in [0,1,2,3,4,5]:
+            elif self.tiles[pos - 1] in [0, 1, 2, 3, 4, 5]:
                 clear_output()
                 print("Position taken!")
 
