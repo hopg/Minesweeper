@@ -1,6 +1,9 @@
 import random
 from IPython.display import clear_output
 class Board():
+    '''
+    Superclass to create the board.
+    '''
 
     def __init__(self):
 
@@ -26,6 +29,10 @@ class Board():
                     print("| %s | %s | %s | %s |" % tuple([self.tiles[4*i + c] for c in range(4)]))
 
 class Mines(Board):
+    '''
+    Class that creates the number of mines based on difficulty.
+    Contains a method that prints the count of mines adjacent to the tile selected.
+    '''
 
     def __init__(self):
         
@@ -39,6 +46,10 @@ class Mines(Board):
             random.shuffle(self.mines)
   
     def reveal(self):
+        '''
+        Shows the board at a point in game with also the position of the mines.
+        '''
+        
 
         for num, item in enumerate(self.mines):
             if item == "X":
@@ -47,6 +58,10 @@ class Mines(Board):
         self.display()
             
     def mine_pos(self):
+        '''
+        Debugging method to show where mines are on the board.
+        '''
+        
         
         if diff == 1: 
             for i in range(4):
@@ -64,7 +79,10 @@ class Mines(Board):
                 else:
                     print("| %s | %s | %s | %s |" % tuple([self.mines[4*i + c] for c in range(4)]))
             
-    def touch(self,pos):
+    def touch(self,pos): 
+        '''
+        Method used for displaying how many mines that are adjacent to a particular tile.
+        '''
     
         def the_check(self,arr,pos):
             global count
@@ -193,6 +211,9 @@ class Mines(Board):
                 the_check(self,[14,15,18], pos)
                 
 def replay():
+    '''
+    Simple function asking the player if they would like to replay the game.
+    '''
     global mine_board
     global game_over
     global playing
@@ -219,11 +240,14 @@ def replay():
                 mine_board = Mines()
                 break
             else:
-                print("Thanks for playing!")
+                print("\nThanks for playing!")
                 playing = False
                 break
 
 def game_difficulty():
+    '''
+    Function that allows difficulty selection.
+    '''
     global diff
     while True:
         try:
@@ -238,41 +262,43 @@ def game_difficulty():
                 print("Please enter in 1 or 2!")
             else:
                 clear_output()
-                if diff == 1:
-                    print("You have selected grid size 3 x 4!\nThere are 3 mines!")
-                    break
-                    
-                if diff == 2:
-                    print("You have selected grid size 4 x 5!\nThere are 5 mines!")
-                    break                    
+                print(f"You have selected grid size {2 + diff} x {3 + diff}!\nThere are {1 + 2 * diff} mines!")
+                break
+                  
 diff =""
-
-print("Welcome to Minesweeper!")
-
 ask = True
 playing = True
 game_over = False
+
+print("Welcome to Minesweeper!")
 
 game_difficulty()
 mine_board = Mines()
 
 while playing:
     
-    # Used for debugging, shows the current mines on the board
-    #mine_board.mine_pos()
-    #print(" ")
+    # Debugging, use to print the position of the mines to determine if count of adjacent mines is true.
+    # mine_board.mine_pos()
+    # print(" ")
     
     mine_board.display()
     
     while ask:
         try:
-            pos = int(input("What position would you like to choose?: "))
+            print(f"\nYou can choose a position from 1 to {4 + 8 * diff}")
+            pos = int(input("\nWhat position would you like to choose?: "))
         except:
             clear_output()
-            print("Please choose a number!")
+            print("Please choose a number!\n")
             mine_board.display()
         else:
-            break
+            if pos - 1 not in (range(4 + 8 * diff)):
+                clear_output()
+                print("Please choose a position within the range!\n")
+                mine_board.display()
+                continue
+            else:
+                break
             
     mine_board.touch(pos)
 
@@ -282,13 +308,8 @@ while playing:
         mine_board.reveal()
         replay()
     
-    elif diff == 1 and win_count == 8:
+    elif win_count == diff * 6 + 2:
         print("GAME WIN!")
         mine_board.reveal()
         replay()
-        
-    elif diff == 2 and win_count == 14:
-        print("GAME WIN!")
-        mine_board.reveal()
-        replay()
-                
+                 
