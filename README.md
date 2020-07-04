@@ -23,5 +23,6 @@ The 4 x 5 grid is tougher than the 3 x 4 grid.
 
 
 #### Known Issues:
-- Can select negative number for positions
-- No current check for a number that is out of bounds for the grid
+- ~~Can select negative number for positions~~
+- ~~No current check for a number that is out of bounds for the grid~~
+- Can use any word beginning with 'y' or 'n' to say yes or no; no plan to fix this as this makes debugging easier!
