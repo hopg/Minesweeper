@@ -9,6 +9,7 @@ class Board():
 
         if diff in (1, 2):
             self.tiles = [" " for c in range(4 + 8*diff)]
+
         
     def display(self):
         
@@ -27,6 +28,7 @@ class Board():
                     print("| %s | %s | %s | %s |" % tuple([self.tiles[4*i + c] for c in range(4)]))
                 else:
                     print("| %s | %s | %s | %s |" % tuple([self.tiles[4*i + c] for c in range(4)]))
+            
 
 class Mines(Board):
     '''
@@ -38,13 +40,25 @@ class Mines(Board):
         
         Board.__init__(self)
 
-        if diff in (1, 2):
+        if diff in (1,  2):
             self.mines = [" " for c in range(4 + 8 * diff)]
             
             for num in range(1 + 2 * diff):
                 self.mines[num] = "X"
             random.shuffle(self.mines)
+    
+    def __setitem__(self, number, answer):
+        self.tiles[number] = answer
+        
+    def __getitem__(self, number):
+        return self.tiles[number]
   
+    def __iter__(self):
+        return iter(self.tiles)
+    
+    def is_mine(self, number):
+        return self.mines[number]
+    
     def reveal(self):
         '''
         Shows the board at a point in game with also the position of the mines.
@@ -84,33 +98,35 @@ class Mines(Board):
         Method used for displaying how many mines that are adjacent to a particular tile.
         '''
     
-        def the_check(self, arr, pos):
+        def the_check(self, arr,  pos):
             global count
             global game_over
             global win_count
             
             count = 0
             win_count = 0
-            
-            for item in self.tiles:
-                if item in [0, 1, 2, 3, 4, 5]:
-                    win_count+=1
 
-            if self.mines[pos - 1] == "X":
-                game_over = True
-
-            elif self.tiles[pos - 1] in [0, 1, 2, 3, 4, 5]:
+            if self.tiles[pos - 1] in [0, 1, 2, 3, 4, 5]:
                 clear_output()
                 print("Position taken!")
-
+            
             else:
                 for num in arr:
                     if self.mines[num] == "X":
                         count+=1
                 self.tiles[pos-1] = count
+                
+                for item in self.tiles:
+                    if item in [0, 1, 2, 3, 4, 5]:
+                        win_count+=1
+                        
+                if self.mines[pos - 1] == "X" and win_count != 1:
+                    game_over = True
+                    
+
                 clear_output()
-    
-# Starting at top right corner
+                
+        # Starting at top right corner
         if diff == 1:
             if pos - 1 == 0:
                 the_check(self, [1, 3, 4], pos)
@@ -268,7 +284,7 @@ def game_difficulty():
             else:
                 clear_output()
                 flag_count = 1 + 2 * diff
-                print(f"You have selected grid size {2 + diff} x {3 + diff}!\nThere are {1 + 2 * diff} mines!")
+                print(f"You have selected grid size {2 + diff} x {3 + diff}!\nThere are {1 + 2 * diff} mines!\n")
                 break
 
 def flag_check():
@@ -305,8 +321,6 @@ while playing:
     
     # Debugging, use to print the position of the mines to determine if count of adjacent mines is true.
     # mine_board.mine_pos()
-    # print(" ")
-    
     mine_board.display()
     
     while ask:
@@ -363,8 +377,22 @@ while playing:
 
                 else:
                     mine_board.touch(int(pos))
-                    flag_check()
-                    break
+                    
+                    if win_count == 1:
+                        
+                        while mine_board.is_mine(int(pos) - 1) == "X":
+                            mine_board = Mines()
+                            mine_board.touch(int(pos)) 
+                            
+                            # Debugging, confirms if the positions of the mines have been altered
+                            # mine_board.mine_pos()
+                            
+                        else:
+                            mine_board.display()
+                    
+                    else:
+                        flag_check()
+                        break
             
 
     if game_over:
