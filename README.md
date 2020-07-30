@@ -36,6 +36,7 @@ Naturally, the 4 x 5 grid is tougher than the 3 x 4 grid.
 - Invalid position choices will notify the player
 - Entering no position will result in a message informing the player 
 - If a flag is on a tile and a flag placed on the same tile, this will remove the flag
+- Can reveal a tile with a flag without having to remove the flag 
 - Flags cannot be placed on tiles that are revealed as they cannot be mines
 - No flags are placed if chosen outside the grid area
 - Invalid flag positions will notify the player
