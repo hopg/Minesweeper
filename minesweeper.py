@@ -344,7 +344,8 @@ while playing:
                         
                         if mine_board[int(pos[1:]) - 1] == "F":
                             clear_output()
-                            print("You have already placed a flag in this position!\n")
+                            mine_board[int(pos[1:]) - 1] = " "
+                            flag_check()
                             break
                         
                         else:
